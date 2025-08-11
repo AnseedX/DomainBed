@@ -100,7 +100,7 @@ def download_vlcs(data_dir):
     # Original URL: http://www.eecs.qmul.ac.uk/~dl307/project_iccv2017
     full_path = stage_path(data_dir, "VLCS")
 
-    download_and_extract("https://drive.google.com/uc?id=1skwblH1_okBwxWxmRsp9_qi15hyPpxg8",
+    download_and_extract("https://storage.googleapis.com/kaggle-data-sets/1749462/2857535/bundle/archive.zip?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=gcp-kaggle-com%40kaggle-161607.iam.gserviceaccount.com%2F20250811%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250811T072638Z&X-Goog-Expires=259200&X-Goog-SignedHeaders=host&X-Goog-Signature=9870ce415a12ce8d21921f1f07c6338336550eb267b89fb33e01f68253571c77e7374571b3a446959a6cdab144e842bc2ac8bf5e2bc8324dc644e8bf7f5da3c1b7aa54652945023b6446d31c3618dd367b57e463f0732ad4e5ee0f73c706ac1563902b720b6edaa3cb572858fcc5984700135229fce360eb478c217c428a11df69586210cffcd6a1a85fe2924d1a50a08d08934498d16d6d15e7a6971f1d58f387c73bfd618c6c52ce7aab24d8a1937ad95adca2721b29fe146fdfe9241d02505518637cfe8700a6d65875ec6a7f633a487a33ac38020a469ee6327d18fc439a6ef643d429bb0c90aff375e489522a988687c5843ec6b1f1e100fe2ba40e2215",
                          os.path.join(data_dir, "VLCS.tar.gz"))
 
 
@@ -115,14 +115,17 @@ def download_mnist(data_dir):
 # PACS ########################################################################
 
 def download_pacs(data_dir):
-    # Original URL: http://www.eecs.qmul.ac.uk/~dl307/project_iccv2017
     full_path = stage_path(data_dir, "PACS")
 
-    download_and_extract("https://drive.google.com/uc?id=1JFr8f805nMUelQWWmfnJR3y4_SYoN5Pd",
-                         os.path.join(data_dir, "PACS.zip"))
+    # Clone the PACS dataset from GitHub
+    if not os.path.isdir(full_path):
+        !git clone https://github.com/MachineLearning2020/Homework3-PACS temp_pacs
+        os.makedirs(data_dir, exist_ok=True)
+        os.rename(os.path.join("temp_pacs", "PACS"), full_path)
+        # Remove the rest of the repo after moving the dataset
+        import shutil
+        shutil.rmtree("temp_pacs")
 
-    os.rename(os.path.join(data_dir, "kfold"),
-              full_path)
 
 
 # Office-Home #################################################################
@@ -131,7 +134,7 @@ def download_office_home(data_dir):
     # Original URL: http://hemanthdv.org/OfficeHome-Dataset/
     full_path = stage_path(data_dir, "office_home")
 
-    download_and_extract("https://drive.google.com/uc?id=1uY0pj7oFsjMxRwaD3Sxy0jgel0fsYXLC",
+    download_and_extract("https://drive.usercontent.google.com/download?id=0B81rNlvomiwed0V1YUxQdC1uOTg&export=download&authuser=0&resourcekey=0-2SNWq0CDAuWOBRRBL7ZZsw&confirm=t&uuid=8c5eff08-97b6-4305-8a81-40ea0f18e85c&at=AN8xHorLyTxcuicjZc5DIrXTuYlt%3A1754896959762",
                          os.path.join(data_dir, "office_home.zip"))
 
     os.rename(os.path.join(data_dir, "OfficeHomeDataset_10072016"),
